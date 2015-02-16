@@ -1,6 +1,7 @@
 Ethereum Bug Bounty Submission: Sending Negative Value Transactions
 ---
-A miner can create a valid block on top of any block with a block number `n` that exceeds 32 byte.
+A miner can create a valid block with any blocknumber `n` on top of any block. 
+Assume `n`  exceeds 32 byte.
 A contract mined in that block can push `n` on the stack using the NUMBER opcode. 
 Because the NOT opcode assumes that all values on the stack are smaller than 32 byte, 
 its result will be negative. Then we can use that number to create a transaction with 
